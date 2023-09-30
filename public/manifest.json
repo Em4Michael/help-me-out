@@ -1,12 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "Screen Recorder Extension",
+  "name": "Help Me Out",
   "version": "1.0",
+  "description": "1.0",
   "permissions": [
-    "activeTab",
     "storage",
     "videoCapture",
-    "tabs"
+    "tabs",
+    "scripting",
+    "activeTab"
   ],
   "action": {
     "default_title": "HelpMeOut",
