@@ -1,3 +1,5 @@
+/* global chrome*/
+
 import React, { useState, useRef } from 'react';
 import Header from '../components/Header';
 import RecordingOptions from '../components/RecordingOptions';
@@ -14,61 +16,47 @@ const ScreenRecorder = () => {
   const chunks = useRef([]);
   const [videoURL, setVideoURL] = useState(null);
 
-  const startRecording = async () => {
-    let displayMediaOptions = {
-      video: {
-        cursor: "always"
-      },
-      audio: true
-    };
+  const [errorMessage, setErrorMessage] = useState('');
 
-    if (isScreenShare) {
-      if (allowMonitor) {
-        displayMediaOptions.video.displaySurface = 'monitor';
-      } else if (allowBrowser) {
-        displayMediaOptions.video.displaySurface = 'browser';
-      } else {
-        displayMediaOptions.video.displaySurface = 'window';
-      }
-    } else {
-      displayMediaOptions = false;
-    }
-
-    try {
-      const stream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
-      mediaRecorder.current = new MediaRecorder(stream);
-
-      mediaRecorder.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunks.current.push(event.data);
+  const startRecording = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "request_recording" }, function (response) {
+        if (!chrome.runtime.lastError) {
+          console.log(response);
+        } else {
+          setErrorMessage("Error starting recording");
+          console.error(chrome.runtime.lastError);
         }
-      };
-
-      mediaRecorder.current.onstop = () => {
-        const blob = new Blob(chunks.current, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        setVideoURL(url);
-        chunks.current = [];
-      };
-
-      mediaRecorder.current.start();
-      setRecording(true);
-    } catch (error) {
-      console.error("Error accessing screen: ", error);
-    }
+      });
+    });
   };
 
   const stopRecording = () => {
-    if (mediaRecorder.current && mediaRecorder.current.state !== 'inactive') {
-      mediaRecorder.current.stop();
-      setRecording(false);
-    }
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "stopvideo" }, function (response) {
+        if (!chrome.runtime.lastError) {
+          console.log(response);
+        } else {
+          setErrorMessage("Error stopping recording");
+          console.error(chrome.runtime.lastError);
+        }
+      });
+    });
   };
 
-  return (
-    <div style={{ minWidth: '20rem', height: '100%', paddingTop: 24, paddingBottom: 32, paddingLeft: 24, paddingRight: 24, background: 'white', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)', borderRadius: 24, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 32, display: 'inline-flex' }}>
 
-      <div style={{ minWidth: '20rem', height: '100%', paddingTop: 24, paddingBottom: 32, paddingLeft: 24, paddingRight: 24, background: 'white', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)', borderRadius: 24, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 32, display: 'inline-flex' }}>
+  return (
+<div style={{
+  /* maxWidth: '100vw',
+  maxHeight: '100vh',
+  width: '20rem',
+  height: '100%',
+  color: 'transparent',
+  backgroundColor: 'transparent',
+  background: 'transparent', */
+}} >
+ <div className="error">{errorMessage}</div>
+      <div style={{ minWidth: '20rem',  height: '100%', paddingTop: 24, paddingBottom: 32, paddingLeft: 24, paddingRight: 24, background: 'white', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.10)', borderRadius: 24, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 32, display: 'inline-flex' }}>
         <Header />
         <RecordingOptions
           allowCamera={allowCamera}

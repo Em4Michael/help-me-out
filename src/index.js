@@ -1,8 +1,17 @@
+/* global chrome */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+/* document.addEventListener('DOMContentLoaded', function() {
+  var startButton = document.getElementById('root');
+  startButton.addEventListener('click', function() {
+    chrome.runtime.sendMessage({ message: 'startRecording' });
+  });
+}); */
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

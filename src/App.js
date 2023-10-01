@@ -1,5 +1,6 @@
-
+/* global chrome */
 import ScreenRecorder from './Pages/ScreenRecorder';
+
 
 function App() {
   return (

@@ -1,16 +1,17 @@
-/* eslint-disable no-undef */
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	if (changeInfo.status === 'complete' && /^http/.test(tab?.url)) {
-		{
-			chrome.scripting
-				.executeScript({
-					target: { tabId },
-					files: ['./content.js'],
-				})
-				.then(() =>
-					console.log('Successfully Injected Script on Line 6')
-				)
-				.catch((err) => console.log(err));
-		}
+// background.js
+/* global chrome */
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+	if (message.action === "request_recording") {
+	  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs, activeTab) {
+		chrome.scripting.executeScript({
+		  target: { tabId: tabs[0].id, allFrames: true },
+		  function: () => {
+			return { message: "Content script injected" };
+		  }
+		});
+	  });
+	  sendResponse({ message: "Starting video..." });
 	}
-});
+  });
+  

@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React from 'react';
 import ToggleSwitch from '../components/ToggleSwitch'
 import Camera from '../images/video.png';
@@ -5,11 +7,19 @@ import monitor from '../images/monitor.png';
 import browser from '../images/copy.png';
 
 const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAudio, allowBrowser, setAllowBrowser, allowMonitor, setIsScreenShare, isScreenShare }) => {
+    const sendMessageToBackground = (message) => {
+      chrome.runtime.sendMessage({ message });
+    };
   return (
     <div style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 24, display: 'flex' }}>
         <div style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 24, display: 'flex' }}>
+
+
           {/* Screen Share Options */}
+
+
           <div style={{ alignSelf: 'stretch', paddingLeft: 32, paddingRight: 32, justifyContent: 'space-between', alignItems: 'center', display: 'inline-flex' }}>
+            
             <div onClick={() => setIsScreenShare(!isScreenShare)} style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex', cursor: 'pointer' }}>
               <div style={{ width: 32, height: 32, position: 'relative' }}>
                 <img src={monitor} alt='home' />
