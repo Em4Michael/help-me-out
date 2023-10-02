@@ -7,8 +7,10 @@
     "storage",
     "tabs",
     "scripting",
-    "activeTab"
-  ],
+    "activeTab",
+    "tabCapture",
+    "desktopCapture"
+  ], 
   "action": {
     "default_title": "HelpMeOut",
     "default_popup": "./index.html",
@@ -20,7 +22,8 @@
     "128": "./images/iCON 7 1.png"
   },
   "host_permissions": [
-    "https://google-chrome-extension.onrender.com/*"
+    "http://*/*",
+    "https://*/*"
 ],
  "background": {
         "service_worker": "./background.js"

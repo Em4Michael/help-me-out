@@ -2,11 +2,12 @@
 
 import React from 'react';
 import ToggleSwitch from '../components/ToggleSwitch'
-import Camera from '../images/video.png';
+import Camera from '../images/Frame 1000002574.png';
 import monitor from '../images/monitor.png';
 import browser from '../images/copy.png';
+import mic from '../images/Frame 1000002575.png'
 
-const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAudio, allowBrowser, setAllowBrowser, allowMonitor, setIsScreenShare, isScreenShare }) => {
+const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAudio, setIsScreenShare, isScreenShare }) => {
     const sendMessageToBackground = (message) => {
       chrome.runtime.sendMessage({ message });
     };
@@ -20,7 +21,7 @@ const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAud
 
           <div style={{ alignSelf: 'stretch', paddingLeft: 32, paddingRight: 32, justifyContent: 'space-between', alignItems: 'center', display: 'inline-flex' }}>
             
-            <div onClick={() => setIsScreenShare(!isScreenShare)} style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex', cursor: 'pointer' }}>
+            <div style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
               <div style={{ width: 32, height: 32, position: 'relative' }}>
                 <img src={monitor} alt='home' />
               </div>
@@ -28,7 +29,7 @@ const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAud
                 Full screen
               </div>
             </div>
-            <div onClick={() => setAllowBrowser(!allowBrowser)} style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex', cursor: 'pointer' }}>
+            <div style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex' }}>
               <img src={browser} alt='home' />
               <div style={{ color: '#120B48', fontSize: 14, fontFamily: 'Work Sans', fontWeight: '600', wordWrap: 'break-word' }}>
                 Current Tab
@@ -50,7 +51,7 @@ const RecordingOptions = ({ allowCamera, setAllowCamera, allowAudio, setAllowAud
           {/* Audio Option */}
           <div style={{ width: 252, paddingTop: 12, paddingBottom: 12, paddingLeft: 16, paddingRight: 12, borderRadius: 12, border: '1px #100A42 solid', justifyContent: 'flex-start', alignItems: 'center', gap: 123, display: 'inline-flex' }}>
             <div style={{ flex: '1 1 0', height: 24, justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'flex' }}>
-              <img src={Camera} alt='home' />
+              <img src={mic} alt='home' />
               <div style={{ flex: '1 1 0', height: 20, justifyContent: 'space-between', alignItems: 'center', display: 'flex' }}>
                 <div style={{ color: '#100A42', fontSize: 14, fontFamily: 'Work Sans', fontWeight: '500', wordWrap: 'break-word' }}>
                   Audio 
